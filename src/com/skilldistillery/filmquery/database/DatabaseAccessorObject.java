@@ -22,7 +22,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 	@Override
 	public Film getFilmById(int filmId) {
-//	Implement the findFilmById method that takes an int film ID, and returns a Film object (or          null, if the film ID returns no data.)
 		Film film = null;
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
@@ -57,6 +56,47 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			e.printStackTrace();
 		}
 		return film;
+	}
+	
+	
+	@Override
+	public List<Film> getFilmByKeyWord(String keyWord) {
+		List<Film> filmList = new ArrayList<>();
+		Film film = null;
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+			String sql = "SELECT id, title, description, release_year," + "language_id,rental_duration,";
+			sql += " rental_rate, length, replacement_cost, rating, special_features " + " FROM film  WHERE title OR description Like ?";
+
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%" + keyWord + "%");
+//			System.out.println(stmt);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt(1);
+				String title = rs.getString(2);
+				String desc = rs.getString(3);
+				int releaseYear = rs.getInt(4);
+				int langId = rs.getInt(5);
+				int rentDur = rs.getInt(6);
+				double rate = rs.getDouble(7);
+				int length = rs.getInt(8);
+				double repCost = rs.getDouble(9);
+				String rating = rs.getString(10);
+				String features = rs.getString(10);
+				List<Actor> actors = getActorsByFilmId(id);
+				film = new Film(id, title, desc, releaseYear, langId, rentDur, rate, length, 						repCost, rating,features, actors);
+				filmList.add(film);
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (
+
+		SQLException e) {
+			e.printStackTrace();
+		}
+		return filmList;
 	}
 
 	@Override
@@ -118,5 +158,26 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return actors;
 
 	}
+	
+	public String getLanguage(int id) {
+			String language = null;
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+			
+			String sql = "SELECT name From language where id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, id);
+			ResultSet langResult = stmt.executeQuery();
+			language = langResult.getString(1);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return language;
+	}
+//	If the user looks up a film by id, they are prompted to enter the film id. If the film is not found, they see a message saying so. If the film is found, its title, year, rating, and description are displayed.
+	
+	
 
 }
