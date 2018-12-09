@@ -10,6 +10,7 @@ import com.skilldistillery.filmquery.entities.Film;
 
 public class FilmQueryApp {
 	boolean proceed = false;
+	DatabaseAccessorObject dbo = new DatabaseAccessorObject();
 	DatabaseAccessor db = new DatabaseAccessorObject();
 	Scanner input = new Scanner(System.in);
 
@@ -74,8 +75,8 @@ public class FilmQueryApp {
 		int filmId = input.nextInt();
 		Film film = db.getFilmById(filmId);
 		if (film != null) {
-			System.out.println("\n\n" + film.getTitle() + "\n Year: " + film.getReleaseYear() + " Rating: " + film.getRating()
-					+ "\nDescription: " + film.getDescription());
+			System.out.println("\n\n" + film.getTitle() + "\nYear: " + film.getReleaseYear() + "\nRating: " + film.getRating()
+			+ "\nLanguage: " + dbo.getLanguage(film.getLanguageId()) + "\nDescription: " + film.getDescription());
 			System.out.println("\nWhat would you like to do next");
 			do {
 				proceed = true;
@@ -110,8 +111,8 @@ public class FilmQueryApp {
 		films = db.getFilmByKeyWord(keyword);
 		if (films != null) {
 		for (Film film : films) {
-			System.out.println("\n\n" + film.getTitle() + " Year: " + film.getReleaseYear() + " Rating: " + film.getRating()
-					+ "\nDescription: " + film.getDescription());
+			System.out.println("\n\n" + film.getTitle() + "\nYear: " + film.getReleaseYear() + "\nRating: " + film.getRating()
+					+ "\nLanguage: "+ dbo.getLanguage(film.getLanguageId())+ "\nDescription: " + film.getDescription());
 		}
 		}
 		else {
