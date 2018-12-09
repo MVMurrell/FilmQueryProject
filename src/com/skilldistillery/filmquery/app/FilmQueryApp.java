@@ -62,7 +62,7 @@ public class FilmQueryApp {
 				System.out.println("Goodbye");
 				System.exit(0);
 			default:
-				System.out.println("That is not a valid selection, please try again");
+				System.out.println("\nThat is not a valid selection, please try again");
 				proceed = false;
 			}
 		} while (proceed == false);
@@ -76,7 +76,8 @@ public class FilmQueryApp {
 		Film film = db.getFilmById(filmId);
 		if (film != null) {
 			System.out.println("\n\n" + film.getTitle() + "\nYear: " + film.getReleaseYear() + "\nRating: " + film.getRating()
-			+ "\nLanguage: " + dbo.getLanguage(film.getLanguageId()) + "\nDescription: " + film.getDescription());
+			+ "\nLanguage: " + dbo.getLanguage(film.getLanguageId()) + "\nDescription: " + film.getDescription()
+			+ "\nActors" + dbo.getActorsByFilmId(film.getId()));
 			System.out.println("\nWhat would you like to do next");
 			do {
 				proceed = true;
@@ -99,7 +100,7 @@ public class FilmQueryApp {
 			
 		}
 		else {
-			System.out.println("That is not a valid Film ID");
+			System.out.println("\nThat is not a valid Film ID");
 		}
 	}
 
@@ -112,11 +113,12 @@ public class FilmQueryApp {
 		if (films != null) {
 		for (Film film : films) {
 			System.out.println("\n\n" + film.getTitle() + "\nYear: " + film.getReleaseYear() + "\nRating: " + film.getRating()
-					+ "\nLanguage: "+ dbo.getLanguage(film.getLanguageId())+ "\nDescription: " + film.getDescription());
+					+ "\nLanguage: "+ dbo.getLanguage(film.getLanguageId())+ "\nDescription: " + film.getDescription() 
+					+ "\nActors" + dbo.getActorsByFilmId(film.getId()));
 		}
 		}
 		else {
-			System.out.println("No films were found with that keyword");
+			System.out.println("\nNo films were found with that keyword");
 		}
 	}
 

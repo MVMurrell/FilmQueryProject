@@ -79,7 +79,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 //			System.out.println(stmt);
 			ResultSet rs = stmt.executeQuery();
 			if (!rs.next()) {
-				System.out.println("none found");
 				filmList = null;
 			}
 			while (rs.next()) {
