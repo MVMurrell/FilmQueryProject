@@ -47,6 +47,9 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film = new Film(filmId, title, desc, releaseYear, langId, rentDur, rate, length, 						repCost, rating,features, actors);
 
 			}
+			else {
+				
+			}
 			
 			
 			rs.close();
@@ -68,14 +71,16 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 			String sql = "SELECT id, title, description, release_year, language_id, rental_duration,";
-			sql += " rental_rate, length, replacement_cost, rating, special_features FROM film  WHERE title OR 						description Like ?";
+			sql += " rental_rate, length, replacement_cost, rating, special_features FROM film  WHERE title";   				sql +=	" LIKE ? OR description Like ?";
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%" + keyWord + "%");
-			System.out.println(stmt);
+			stmt.setString(2, "%" + keyWord + "%");
+//			System.out.println(stmt);
 			ResultSet rs = stmt.executeQuery();
 			if (!rs.next()) {
 				System.out.println("none found");
+				filmList = null;
 			}
 			while (rs.next()) {
 				int id = rs.getInt(1);

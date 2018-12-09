@@ -47,7 +47,7 @@ public class Film {
 	
 		return "\n\nFilm ID:" + id + "\nTitle:  " + title + "\nDescription: " + description + "\nRelease Year: " + releaseYear
 				+ "\nLanguage ID: " + lang + "\nRental Duration: " + rentalDuration + "\nRental Rate: $" + rentalRate
-				+ "\nlength: " + length + "\nReplacement Cost: $" + replacementCost + "\nRated: " + rating
+				+ "\nLength: " + length + "\nReplacement Cost: $" + replacementCost + "\nRated: " + rating
 				+ "\nSpecial Features: " + specialFeatures + "\nActors: \n" + actors;
 	}
 	@Override

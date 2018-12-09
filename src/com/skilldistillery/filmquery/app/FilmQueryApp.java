@@ -15,23 +15,23 @@ public class FilmQueryApp {
 
 	public static void main(String[] args) {
 		FilmQueryApp app = new FilmQueryApp();
-		app.test();
-//    app.launch();
+//		app.test();
+    app.launch();
 	}
 
-	private void test() {
-		Film film = db.getFilmById(6);
-		System.out.println(film);
-	}
+//	private void test() {
+//		filmKeyWordLookUp();
+//		System.out.println(film);
+//	}
 
 	private void launch() {
 
 		System.out.println("************************************");
-		System.out.println("*************Welcome  To************");
+		System.out.println("************ Welcome  To ***********");
 		System.out.println("************************************");
-		System.out.println("**********Hollywood Movies**********");
+		System.out.println("********* Hollywood Movies *********");
 		System.out.println("************************************");
-		System.out.println("************Movie Rentals***********");
+		System.out.println("*********** Movie Rentals **********");
 		System.out.println("************************************");
 		primaryMenu();
 
@@ -47,23 +47,24 @@ public class FilmQueryApp {
 			System.out.println("2: Look up a film by a search Keyword");
 			System.out.println("3: Exit the application");
 			select = input.nextInt();
-			if (select != 1 || select != 2 || select != 3) {
-				System.out.println("That is not a valid selection please try again");
+
+			switch (select) {
+			case 1:
+				filmIdLookUp();
+				proceed =false;
+				break;
+			case 2:
+				filmKeyWordLookUp();
+				proceed =false;
+				break;
+			case 3:
+				System.out.println("Goodbye");
+				System.exit(0);
+			default:
+				System.out.println("That is not a valid selection, please try again");
 				proceed = false;
 			}
 		} while (proceed == false);
-
-		switch (select) {
-		case 1:
-			filmIdLookUp();
-			break;
-		case 2:
-			filmKeyWordLookUp();
-			break;
-		case 3:
-			System.out.println("Goodbye");
-			System.exit(0);
-		}
 
 	}
 
@@ -73,46 +74,49 @@ public class FilmQueryApp {
 		int filmId = input.nextInt();
 		Film film = db.getFilmById(filmId);
 		if (film != null) {
-			System.out.println(film.getTitle() + " Year: " + film.getReleaseYear() + " Rating: " + film.getRating()
+			System.out.println("\n\n" + film.getTitle() + "\n Year: " + film.getReleaseYear() + " Rating: " + film.getRating()
 					+ "\nDescription: " + film.getDescription());
-			System.out.println("What would you like to do next");
+			System.out.println("\nWhat would you like to do next");
 			do {
 				proceed = true;
 				System.out.println("1: Return to main Menu");
 				System.out.println("2: View Film Details");
 				System.out.print("Selection: ");
 				select = input.nextInt();
-				if (select != 1 || select != 2) {
-					System.out.println("That is not a choice, try again");
-					proceed = false;
-				}
-			} while (proceed == false);
+				
 			switch (select) {
 			case 1:
-				primaryMenu();
 				break;
 			case 2:
-			System.out.println(film);
-			primaryMenu();
+				System.out.println(film);
 				break;
+			default:
+				System.out.println("\nThat is not a valid selection, please try again");
+				proceed = false;
 			}
+			} while (proceed == false);
+			
+		}
+		else {
+			System.out.println("That is not a valid Film ID");
 		}
 	}
 
 	private void filmKeyWordLookUp() {
-		int select;
+		String keyword;
 		List<Film> films = new ArrayList<>();
-		System.out.print("\nPlease enter the keyword you would like t search by: ");
-		String keyword = input.nextLine();
+		System.out.print("\nPlease enter the keyword you would like to search by: ");
+		keyword = input.next();
 		films = db.getFilmByKeyWord(keyword);
 		if (films != null) {
-			for (Film film : films) {
-			System.out.println(film.getTitle() + " Year: " + film.getReleaseYear() + " Rating: " + film.getRating()
+		for (Film film : films) {
+			System.out.println("\n\n" + film.getTitle() + " Year: " + film.getReleaseYear() + " Rating: " + film.getRating()
 					+ "\nDescription: " + film.getDescription());
-			}
-			primaryMenu();
 		}
-
+		}
+		else {
+			System.out.println("No films were found with that keyword");
+		}
 	}
 
 	private void filmIdLookU() {
