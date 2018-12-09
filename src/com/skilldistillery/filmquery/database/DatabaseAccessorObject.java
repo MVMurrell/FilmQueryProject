@@ -25,8 +25,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		Film film = null;
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
-			String sql = "SELECT id, title, description, release_year," + "language_id,rental_duration,";
-			sql += " rental_rate, length, replacement_cost, rating, special_features " + " FROM film  WHERE id = ?";
+			String sql = "SELECT id, title, description, release_year, language_id,rental_duration,";
+			sql += " rental_rate, length, replacement_cost, rating, special_features FROM film  WHERE id = ?";
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
@@ -47,6 +47,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film = new Film(filmId, title, desc, releaseYear, langId, rentDur, rate, length, 						repCost, rating,features, actors);
 
 			}
+			
+			
 			rs.close();
 			stmt.close();
 			conn.close();
@@ -65,13 +67,16 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		Film film = null;
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
-			String sql = "SELECT id, title, description, release_year," + "language_id,rental_duration,";
-			sql += " rental_rate, length, replacement_cost, rating, special_features " + " FROM film  WHERE title OR description Like ?";
+			String sql = "SELECT id, title, description, release_year, language_id, rental_duration,";
+			sql += " rental_rate, length, replacement_cost, rating, special_features FROM film  WHERE title OR 						description Like ?";
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%" + keyWord + "%");
-//			System.out.println(stmt);
+			System.out.println(stmt);
 			ResultSet rs = stmt.executeQuery();
+			if (!rs.next()) {
+				System.out.println("none found");
+			}
 			while (rs.next()) {
 				int id = rs.getInt(1);
 				String title = rs.getString(2);
@@ -108,6 +113,9 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, actorId);
 			ResultSet actorResult = stmt.executeQuery();
+			if (!actorResult.next()) {
+				System.out.println("none found");
+			}
 			if (actorResult.next()) {
 				int id = actorResult.getInt(1);
 				String first_name = actorResult.getString(2);
@@ -140,6 +148,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
 			ResultSet actorResult = stmt.executeQuery();
+			
 			while (actorResult.next()) {
 				int id = actorResult.getInt(1);
 				String firstName = actorResult.getString(2);
@@ -168,7 +177,12 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, id);
 			ResultSet langResult = stmt.executeQuery();
+			if (langResult.next()) {
 			language = langResult.getString(1);
+			}
+			conn.close();
+			stmt.close();
+			langResult.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -42,8 +42,11 @@ public class Film {
 	
 	@Override
 	public String toString() {
-		return "Film ID:" + id + "\nTitle:  " + title + "\nDescription: " + description + "\nRelease Year: " + releaseYear
-				+ "\nLanguage ID: " + languageId + "\nRental Duration: " + rentalDuration + "\nRental Rate: $" + rentalRate
+	DatabaseAccessorObject dbo = new DatabaseAccessorObject();
+	String lang = dbo.getLanguage(languageId);
+	
+		return "\n\nFilm ID:" + id + "\nTitle:  " + title + "\nDescription: " + description + "\nRelease Year: " + releaseYear
+				+ "\nLanguage ID: " + lang + "\nRental Duration: " + rentalDuration + "\nRental Rate: $" + rentalRate
 				+ "\nlength: " + length + "\nReplacement Cost: $" + replacementCost + "\nRated: " + rating
 				+ "\nSpecial Features: " + specialFeatures + "\nActors: \n" + actors;
 	}
